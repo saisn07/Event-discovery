@@ -1,0 +1,367 @@
+  <!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Events</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;}
+body{background:#fff;color:#0a2540;display:flex;flex-direction:column;min-height:100vh;}
+.top-header{border-bottom:1px solid #e5e5e5;padding:12px 20px;}
+.top-header-inner{display:flex;align-items:center;flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo img{height:60px;}
+.univ-text h1{margin:0;font-size:28px;color:#0a2aa5;}
+.univ-text p{margin:2px 0 0;font-size:15px;color:#0a2aa5;}
+.right-section{margin-left:auto;margin-top:10px;}
+.search-box input{padding:8px 14px;border-radius:20px;border:1px solid #ccc;width:200px;}
+
+/* Marquee */
+.marquee-container{overflow:hidden;white-space:nowrap;margin:10px 0;}
+.marquee-text{display:inline-block;color:#1e5bd8;font-weight:600;font-size:16px;animation: marquee 10s linear infinite;}
+@keyframes marquee {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+
+/* Main layout */
+.main-container{display:flex;gap:30px;padding:20px;}
+.main-content{flex:3;overflow-y:auto;}
+.side-panel{flex:1;position:sticky;top:20px;display:flex;flex-direction:column;gap:20px;max-width:300px;}
+
+/* Header & categories */
+.header{display:flex;align-items:center;margin-bottom:25px;flex-wrap:wrap;}
+.header h1{font-size:40px;margin:0;}
+.header span{color:#1e5bd8;}
+.count{margin-left:auto;background:#1e5bd8;color:#fff;padding:6px 12px;border-radius:4px;margin-top:10px;}
+
+.categories{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px;}
+.card{width:140px;height:115px;background:#f6faff;border-radius:20px;
+display:flex;flex-direction:column;justify-content:center;align-items:center;
+text-decoration:none;color:inherit;transition:.25s;cursor:pointer;}
+.card:hover{background:#e6e6e6;transform:translateY(-4px);}
+.card.active{border:2px solid #1e5bd8;}
+.icon{font-size:30px;margin-bottom:10px;}
+.label{font-weight:600;color:#0a2540;text-align:center;}
+
+/* Event boxes */
+.events-list{display:flex;flex-direction:column;gap:20px;}
+.event-box{padding:20px;background:#f6faff;border-radius:15px;border-left:5px solid #1e5bd8;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);transition:.3s;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;}
+.event-box:hover{transform:translateY(-3px);box-shadow:0 6px 15px rgba(0,0,0,0.12);}
+.event-name{font-size:20px;font-weight:700;margin-bottom:6px;}
+.event-date{color:#0a2aa5;font-weight:600;margin-bottom:6px;}
+.event-desc{margin-bottom:8px;}
+.event-team{font-style:italic;margin-bottom:10px;}
+.register-btn{
+  background:#28a745;color:#fff;padding:8px 16px;border:none;border-radius:8px;
+  cursor:pointer;text-decoration:none;font-weight:600;transition:.3s;width:fit-content;text-align:center;
+}
+.register-btn:hover{background:#1e7e34;}
+
+/* Side panel */
+.calendar{background:#f6faff;border-radius:12px;padding:15px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.calendar h3{color:#1e5bd8;margin-bottom:10px;}
+.past-events{display:flex;flex-direction:column;gap:10px;overflow:hidden;position:relative;}
+.past-events img{width:100%;border-radius:12px;height:150px;object-fit:cover;transition:.3s;}
+.past-events img:hover{transform:scale(1.05);cursor:pointer;}
+
+/* Council block */
+.council-block{background:#1e5bd8;color:#fff;padding:15px 20px;margin-top:20px;border-radius:12px;display:flex;justify-content:space-around;flex-wrap:wrap;font-weight:600;}
+
+/* Responsive */
+@media(max-width:900px){
+  .main-container{flex-direction:column;}
+  .side-panel{position:relative;max-width:100%;}
+  .header{flex-direction:column;align-items:flex-start;}
+  .count{margin-left:0;margin-top:10px;}
+} 
+/* Core team full width section */
+.core-team-section{
+  width:100%;
+  margin-top:80px;
+  padding:60px 20px;
+  text-align:center;
+}
+
+.core-team-section h2{
+  color:#1e5bd8;
+  font-size:34px;
+  font-weight:800;
+  margin-bottom:40px;
+  letter-spacing:1px;
+}
+
+.council-block{
+  max-width:1000px;
+  margin:0 auto 50px;
+  display:flex;
+  justify-content:space-evenly;
+  flex-wrap:wrap;
+  gap:20px;
+  background:#1e5bd8;
+  color:#fff;
+  padding:20px;
+  border-radius:16px;
+  font-size:18px;
+}
+
+.motivation-text{
+  max-width:900px;
+  margin:0 auto;
+  font-size:20px;
+  line-height:1.6;
+  color:#0a2540;
+}
+
+.motivation-text span{
+  color:#1e5bd8;
+  font-weight:700;
+  font-size:22px;
+} 
+/* About contact section */
+.about-contact{
+  background:#1e5bd8;
+  color:#fff;
+  padding:70px 20px;
+  text-align:center;
+}
+
+.about-contact h2{
+  font-size:34px;
+  margin-bottom:15px;
+}
+
+.about-contact p{
+  max-width:800px;
+  margin:0 auto 25px;
+  font-size:18px;
+}
+
+.about-contact h3{
+  margin-bottom:20px;
+  font-size:22px;
+}
+
+.contact-form{
+  max-width:500px;
+  margin:0 auto 30px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  font-size:15px;
+}
+
+.contact-form button{
+  background:#28a745;
+  color:#fff;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.contact-form button:hover{
+  background:#1e7e34;
+}
+
+.contact-info p{
+  font-size:16px;
+  margin:6px 0;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Top Header -->
+<div class="top-header">
+  <div class="top-header-inner">
+    <div class="logo">
+      <img src="uni.logo.png.png">
+      <div class="univ-text">
+        <h1>Usha Mittal Institute of Technology</h1>
+        <p>SNDT Women's University, Mumbai</p>
+      </div>
+    </div>
+    <div class="right-section">
+      <div class="search-box"><input id="search-input" placeholder="Search events..."></div>
+    </div>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee-container">
+    <div class="marquee-text">Welcome UMIT'íans ! Build,break & make us proud,by registering in your choice of fields! 🎉💻</div>
+  </div>
+</div>
+
+<!-- Main Container -->
+<div class="main-container">
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h1>Explore <span>Events</span></h1>
+      <div class="count" id="event-count">Events (0)</div>
+    </div>
+
+    <div class="categories">
+      <div class="card active" data-category="hackathons"><div class="icon">💻</div><div class="label">Hackathons</div></div>
+      <div class="card" data-category="cultural"><div class="icon">🎭</div><div class="label">Cultural Fest</div></div>
+      <div class="card" data-category="scholarships"><div class="icon">🎓</div><div class="label">Scholarships</div></div>
+      <div class="card" data-category="collegefests"><div class="icon">🎉</div><div class="label">College Fests</div></div>
+      <div class="card" data-category="workshops"><div class="icon">🛠️</div><div class="label">Workshops</div></div>
+    </div>
+
+    <div class="events-list" id="events-list">
+      <!-- Event boxes dynamically inserted here -->
+    </div>
+
+    
+  </div> 
+  <!-- Side Panel -->
+  <div class="side-panel">
+    <div class="calendar">
+      <h3>📅 Calendar</h3>
+      <p>Jan 2026</p>
+      <p>Highlight upcoming dates!</p>
+    </div>
+    <div class="past-events" id="past-events">
+      <img src="event1.png.png" alt="Past Event 1">
+      <img src="event3.png.png" alt="Past Event 2" style="display:none;">
+      <img src="event5.png.png" alt="Past Event 3" style="display:none;">
+      <img src="event4.png.png" alt="Past Event 4" style="display:none;">
+    </div>
+  </div>
+</div> 
+<!-- Core Team Section -->
+<section class="core-team-section">
+  <h2>MANAGING & EXECUTION CORE</h2>
+
+  <div class="council-block">
+    <div>CSI</div>
+    <div>IEEE</div>
+    <div>ACM-W</div>
+    <div>Student Council</div>
+    <div>INNOVARI</div>
+  </div>
+
+  <div class="motivation-text">
+    <span>Just a lil reminder from the whole UMIT team :</span><br><br>
+    It's <strong>YOU</strong> who would make our efforts fruitful,<br>
+    so register, learn and grow.<br>
+    <strong>We believe in you champ!</strong> 💙
+  </div>
+</section>
+
+
+<script>
+// Event data including scholarship example
+const eventsData = {
+  hackathons: [
+    {name:"Websprint Hackathon 2026", date:"Jan 17, 2026", desc:"Build innovative webpage using HTML+CSS+JS+ related framework.", team:"1/2 members", link:"https://forms.gle/samplelink1"},
+    {name:"Scavenger code hunt", date:"Apr 15-16, 2026", desc:"Design by solving puzzles.", team:"2-3 members", link:"https://forms.gle/samplelink2"},
+ {name:"CSS, C++ code quiz", date:"Mar 22, 2026", desc:"win by answering the questions.", team:"Individual", link:"https://forms.gle/samplelink2"},
+   ],
+  cultural: [
+    {name:"Maharahstra Divas", date:"May 1, 2026", desc:"Music, dance, drama all centric to our states heritage.", team:"2-3 members", link:"https://forms.gle/samplelink4"},
+  ],
+  scholarships: [
+    {name:"Merit Scholarship 2026", date:"Jun 1, 2026", desc:"Scholarship for outstanding academic performance.", team:"Individual", link:"https://forms.gle/samplelinkScholarship1"},
+  ],
+  collegefests: [
+    {name:"ARCANES 2026", date:"Apr 12-13, 2026", desc:"Annual college fest with tech, fun, exposure & contentment all under 1 roof.", team:"1/more members", link:"https://forms.gle/qBi4KPZ48EXy7YNAA"},
+  ],
+  workshops: [
+    {name:"Robotics Bootcamp", date:"Mar 18-19, 2026", desc:"Hands-on robot making & programming workshop.", team:"1 or more", link:"https://forms.gle/samplelink9"},
+  ],
+};
+
+// Elements
+const cards = document.querySelectorAll('.card');
+const eventsList = document.getElementById('events-list');
+const searchInput = document.getElementById('search-input');
+const eventCount = document.getElementById('event-count');
+
+let currentCategory = 'hackathons';
+
+// Render events function
+function renderEvents(category, filter=''){
+  eventsList.innerHTML = '';
+  if(eventsData[category]){
+    let filteredEvents = eventsData[category].filter(ev => ev.name.toLowerCase().includes(filter.toLowerCase()));
+    filteredEvents.forEach(event=>{
+      const box = document.createElement('div');
+      box.classList.add('event-box');
+      box.innerHTML = `
+        <div class="event-name">${event.name}</div>
+        <div class="event-date">${event.date}</div>
+        <div class="event-desc">${event.desc}</div>
+        <div class="event-team">Team: ${event.team}</div>
+        <a href="${event.link}" target="_blank" class="register-btn">Register</a>
+      `;
+      eventsList.appendChild(box);
+    });
+    eventCount.textContent = `Events (${filteredEvents.length})`;
+  } else {
+    eventsList.innerHTML = '<p>No events found for this category.</p>';
+    eventCount.textContent = `Events (0)`;
+  }
+}
+
+// Initialize
+renderEvents(currentCategory);
+
+// Category click
+cards.forEach(card=>{
+  card.addEventListener('click', ()=>{
+    cards.forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+    currentCategory = card.getAttribute('data-category');
+    searchInput.value = '';
+    renderEvents(currentCategory);
+  });
+});
+
+// Search input
+searchInput.addEventListener('input', ()=>{
+  renderEvents(currentCategory, searchInput.value);
+});
+
+// Past events slider
+let pastIndex = 0;
+const pastImages = document.querySelectorAll('#past-events img');
+setInterval(()=>{
+  pastImages.forEach((img,i)=> img.style.display = i===pastIndex?'block':'none');
+  pastIndex = (pastIndex+1)%pastImages.length;
+},3000);
+</script> 
+<!-- About & Contact Section -->
+<section class="about-contact">
+  <h2>About Us</h2>
+  <p>
+    We at UMIT aim to provide students with opportunities that enhance learning,
+    innovation, leadership and exposure beyond classrooms.
+  </p>
+
+  <h3>Have a query?</h3>
+
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea placeholder="Your Message" rows="4"></textarea>
+    <button type="submit">Send Enquiry</button>
+  </form>
+
+  <div class="contact-info">
+    <p>📧 events@umit.edu.in</p>
+    <p>📞 +91 99309 96897</p>
+  </div>
+</section>
+
+</body>
+</html>  
